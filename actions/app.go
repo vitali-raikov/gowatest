@@ -3,13 +3,13 @@ package actions
 import (
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
+	"github.com/gobuffalo/buffalo/middleware/i18n"
 	"github.com/gobuffalo/buffalo/middleware/ssl"
 	"github.com/gobuffalo/envy"
+	"github.com/gobuffalo/packr"
 	"github.com/unrolled/secure"
 
 	"github.com/gobuffalo/buffalo/middleware/csrf"
-	"github.com/gobuffalo/buffalo/middleware/i18n"
-	"github.com/gobuffalo/packr"
 	"github.com/vitali-raikov/gowatest/models"
 )
 
@@ -17,6 +17,8 @@ import (
 // application is being run. Default is "development".
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
+
+// T is the global translating variable
 var T *i18n.Translator
 
 // App is where all routes and middleware for buffalo
@@ -47,17 +49,35 @@ func App() *buffalo.App {
 		// Remove to disable this.
 		app.Use(middleware.PopTransaction(models.DB))
 
-		// Setup and use translations:
 		var err error
-		if T, err = i18n.New(packr.NewBox("../locales"), "en-US"); err != nil {
+
+		if T, err = i18n.New(packr.NewBox("../locales"), "en"); err != nil {
 			app.Stop(err)
 		}
+		app.Use(PersistLanguage)
 		app.Use(T.Middleware())
 
-		app.Resource("/customers", CustomersResource{&buffalo.BaseResource{}})
+		// Setup and use translations:
+		g := app.Group("/{language}")
+		g.Resource("/customers", CustomersResource{&buffalo.BaseResource{}})
 
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
 
 	return app
+}
+
+// PersistLanguage is
+func PersistLanguage(next buffalo.Handler) buffalo.Handler {
+	return func(c buffalo.Context) error {
+		s := c.Session()
+		s.Set("lang", c.Param("language"))
+		// do some work
+		err := s.Save()
+		if err != nil {
+			return err
+		}
+
+		return next(c)
+	}
 }

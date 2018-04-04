@@ -5,6 +5,7 @@ import (
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop"
+
 	"github.com/pkg/errors"
 	"github.com/vitali-raikov/gowatest/models"
 )

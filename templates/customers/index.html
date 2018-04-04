@@ -1,9 +1,11 @@
 <div class="col">
 
+    <%= t("welcome_greeting") %>
+
     <%= form({action: "", method: "GET"}) { %>
       <div class="form-row">
         <div class="col-7">
-          <label for="first_name">First Name</label>
+          <label for="first_name"><%= t("index_first_name") %></label>
           <%= f.InputTag({name: "first_name", value: firstName }) %>
         </div>
         <div class="col">
@@ -35,7 +37,7 @@
         <td class="col-sm-5"><%= customer.FirstName %></td>
         <td class="col-sm-6"><%= customer.LastName %></td>
         <td class="col-sm-1">
-          <a href="<%= editCustomerPath({ customer_id: customer.ID }) %>" class="btn btn-primary">Edit</a>
+          <a href="<% editCustomerPath({language: "ru", customer_id: customer.ID}) %>" class="btn btn-primary">Edit</a>
         </td>
       </tr>
     <% } %>

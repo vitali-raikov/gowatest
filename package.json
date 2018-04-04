@@ -9,6 +9,7 @@
     "babel-loader": "~7.1.2",
     "babel-preset-env": "~1.5.2",
     "bootstrap": "4.0.0",
+    "tiny-date-picker": "3.2.3",
     "clean-webpack-plugin": "~0.1.17",
     "copy-webpack-plugin": "~4.0.1",
     "css-loader": "~0.28.4",

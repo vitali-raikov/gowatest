@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-md-6">
+        <%= f.InputTag("FirstName") %>
+    </div>
+    <div class="col-md-6">
+        <%= f.InputTag("LastName") %>
+    </div>
+
+    <div class="col-md-6">
+        <%= f.SelectTag("Gender", {options: ["male", "female"]}) %>
+      </div>
+    <div class="col-md-6">
+        <%= f.InputTag("BirthDate", {class: "datepicker"}) %>
+      </div>
+    <div class="col-md-6">
+        <%= f.InputTag("Address") %>
+    </div>
+</div>
