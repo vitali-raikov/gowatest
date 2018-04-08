@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"fmt"
+
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/buffalo/middleware/i18n"
@@ -50,14 +52,17 @@ func App() *buffalo.App {
 		app.Use(middleware.PopTransaction(models.DB))
 
 		var err error
+		defaultLanguage := "en"
 
-		if T, err = i18n.New(packr.NewBox("../locales"), "en"); err != nil {
+		if T, err = i18n.New(packr.NewBox("../locales"), defaultLanguage); err != nil {
 			app.Stop(err)
 		}
 		app.Use(PersistLanguage)
 		app.Use(T.Middleware())
 
 		// Setup and use translations:
+		app.Redirect(301, "/", fmt.Sprintf("/%s/customers", defaultLanguage))
+
 		g := app.Group("/{language}")
 		g.Resource("/customers", CustomersResource{&buffalo.BaseResource{}})
 
