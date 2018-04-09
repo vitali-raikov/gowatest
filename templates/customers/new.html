@@ -1,0 +1,8 @@
+
+<h1>Creating New Customer</h1>
+
+<%= form_for(customer, {action: customersPath({language: currentLanguage}), method: "POST"}) { %>
+  <%= partial("customers/form.html") %>
+  <input type="submit" class="btn btn-warning" value="Save">
+<% } %>
+<br/>

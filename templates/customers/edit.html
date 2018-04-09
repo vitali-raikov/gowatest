@@ -1,7 +1,7 @@
 
 <h1>Edit <%= customer.FirstName %> <%= customer.LastName %> </h1>
 
-<%= form_for(customer, {action: customerPath({customer_id: customer.ID, language: "ru"}), method: "PUT"}) { %>
+<%= form_for(customer, {action: customerPath({customer_id: customer.ID, language: currentLanguage}), method: "PUT"}) { %>
   <%= partial("customers/form.html") %>
   <input type="submit" class="btn btn-warning" value="Save">
 <% } %>

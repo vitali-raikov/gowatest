@@ -2,6 +2,7 @@ package actions
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop"
@@ -51,6 +52,50 @@ func (v CustomersResource) List(c buffalo.Context) error {
 	c.Set("pagination", q.Paginator)
 
 	return c.Render(200, r.HTML("customers/index.html"))
+}
+
+// New is a hander for rendering new page
+func (v CustomersResource) New(c buffalo.Context) error {
+	customer := &models.Customer{}
+
+	customer.BirthDate = time.Now().AddDate(-18, 0, 0)
+
+	// Make customer available inside the html template
+	c.Set("customer", customer)
+	return c.Render(200, r.HTML("customers/new.html"))
+}
+
+// Create is a handler for processing customer creation
+func (v CustomersResource) Create(c buffalo.Context) error {
+	// Get the DB connection from the context
+	tx := c.Value("tx").(*pop.Connection)
+
+	// Allocate an empty customer
+	customer := &models.Customer{}
+	// Bind customer to the html form elements
+	err := c.Bind(customer)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	// Validate the data from the html form
+	verrs, err := tx.ValidateAndCreate(customer)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	if verrs.HasAny() {
+		// Make customer available inside the html template
+		c.Set("customer", customer)
+		// Make the errors available inside the html template
+		c.Set("errors", verrs)
+		// Render again the new.html template that the user can
+		// correct the input.
+		return c.Render(422, r.HTML("customers/new.html"))
+	}
+	// If there are no errors set a success message
+	c.Flash().Add("success", "Customer was created successfully")
+	// and redirect to the customers index page
+	return c.Redirect(302, fmt.Sprintf("/%s/customers", c.Session().Get(T.SessionName)))
 }
 
 // Edit is a hander for rendering edit page
@@ -105,8 +150,10 @@ func (v CustomersResource) Update(c buffalo.Context) error {
 		// correct the input.
 		return c.Render(422, r.HTML("customers/edit.html"))
 	}
+
 	// If there are no errors set a success message
 	c.Flash().Add("success", "Customer was updated successfully")
 	// and redirect to the customers index page
-	return c.Redirect(302, "/ru/customers")
+
+	return c.Redirect(302, fmt.Sprintf("/%s/customers", c.Session().Get(T.SessionName)))
 }

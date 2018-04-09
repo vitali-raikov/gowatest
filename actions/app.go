@@ -72,12 +72,18 @@ func App() *buffalo.App {
 	return app
 }
 
-// PersistLanguage is
+// PersistLanguage is handler to save language to session, as by default
+// bufallo i18n reads from session, sort of hackish workaround
 func PersistLanguage(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		s := c.Session()
+
+		// Save language to session
 		s.Set("lang", c.Param("language"))
-		// do some work
+
+		// Persist it in context variable across all views
+		c.Set("currentLanguage", c.Session().Get(T.SessionName))
+
 		err := s.Save()
 		if err != nil {
 			return err

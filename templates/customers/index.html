@@ -37,7 +37,7 @@
         <td class="col-sm-5"><%= customer.FirstName %></td>
         <td class="col-sm-6"><%= customer.LastName %></td>
         <td class="col-sm-1">
-          <a href="<% editCustomerPath({language: "ru", customer_id: customer.ID}) %>" class="btn btn-primary">Edit</a>
+          <a href="<% editCustomerPath({language: currentLanguage, customer_id: customer.ID}) %>" class="btn btn-primary">Edit</a>
         </td>
       </tr>
     <% } %>
