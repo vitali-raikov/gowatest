@@ -1,5 +1,28 @@
 # For more information on using i18n see: https://github.com/nicksnyder/go-i18n
-- id: welcome_greeting
-  translation: "Welcome to Buffalo (EN)"
-- id: index_first_name
+- id: customers_first_name
   translation: "First Name"
+- id: customers_last_name
+  translation: "Last Name"
+- id: customers_email
+  translation: "Email"
+- id: customers_gender
+  translation: "Gender"
+- id: customers_gender_male
+  translation: "Male"
+- id: customers_gender_female
+  translation: "Female"
+- id: customers_birth_date
+  translation: "Birth Date"
+- id: customers_address
+  translation: "Address"
+- id: customers_new_customer
+  translation: "New Customer"
+
+- id: button_edit
+  translation: "Edit"
+- id: button_new
+  translation: "New"
+- id: button_search
+  translation: "Search"
+- id: button_save
+  translation: "Save"

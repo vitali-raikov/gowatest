@@ -3,21 +3,21 @@
     <%= f.HiddenTag("EditPageDate", {value: customer.UpdatedAt.UnixNano()}) %>
 
     <div class="col-md-6">
-        <%= f.InputTag("FirstName") %>
+        <%= f.InputTag("FirstName", {label: t("customers_first_name")}) %>
     </div>
     <div class="col-md-6">
-        <%= f.InputTag("LastName") %>
+        <%= f.InputTag("LastName", {label: t("customers_last_name")}) %>
     </div>
     <div class="col-md-6">
-        <%= f.InputTag("Email") %>
+        <%= f.InputTag("Email", {label: t("customers_email")}) %>
     </div>
     <div class="col-md-6">
-        <%= f.SelectTag("Gender", {options: ["Male", "Female"]}) %>
+        <%= f.SelectTag("Gender", {options: ["Male", "Female"], label: t("customers_gender")}) %>
       </div>
     <div class="col-md-6">
-        <%= f.InputTag("BirthDate", {class: "datepicker", value: customer.BirthDate.Format("01/02/2006")}) %>
+        <%= f.InputTag("BirthDate", {class: "datepicker", value: customer.BirthDate.Format("01/02/2006"), label: t("customers_birth_date")}) %>
       </div>
     <div class="col-md-6">
-        <%= f.InputTag("Address") %>
+        <%= f.InputTag("Address", {label: t("customers_address")}) %>
     </div>
 </div>

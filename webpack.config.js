@@ -33,9 +33,6 @@ module.exports = {
     filename: "[name].[hash].js",
     path: `${__dirname}/public/assets`
   },
-  alias: {
-    moment: 'moment/moment.js',
-  },
   plugins: [
     new CleanWebpackPlugin([
       "public/assets"

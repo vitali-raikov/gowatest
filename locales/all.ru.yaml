@@ -1,5 +1,28 @@
 # For more information on using i18n see: https://github.com/nicksnyder/go-i18n
-- id: welcome_greeting
-  translation: "Русский работает (RU)"
-- id: index_first_name
+- id: customers_first_name
   translation: "Имя"
+- id: customers_last_name
+  translation: "Фамилия"
+- id: customers_email
+  translation: "Email"
+- id: customers_gender
+  translation: "Пол"
+- id: customers_gender_male
+  translation: "Мужской"
+- id: customers_gender_female
+  translation: "Женский"
+- id: customers_birth_date
+  translation: "Дата рождения"
+- id: customers_address
+  translation: "Адрес"
+- id: customers_new_customer
+  translation: "Новый клиент"
+  
+- id: button_edit
+  translation: "Изменить"
+- id: button_new
+  translation: "Добавить"
+- id: button_search
+  translation: "Искать"
+- id: button_save
+  translation: "Сохранить"
