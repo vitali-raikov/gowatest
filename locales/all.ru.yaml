@@ -1,4 +1,7 @@
 # For more information on using i18n see: https://github.com/nicksnyder/go-i18n
+- id: change_language
+  translation: "Сменить язык"
+
 - id: customers_first_name
   translation: "Имя"
 - id: customers_last_name

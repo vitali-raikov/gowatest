@@ -1,7 +1,14 @@
-development:
+default: &default
   dialect: postgres
-  database: gowatest_development
   user: vitaliraikov
   password:
   host: 127.0.0.1
   pool: 5
+
+development:
+  <<: *default
+  database: gowatest_development
+
+test:
+  <<: *default
+  database: gowatest_test

@@ -55,7 +55,7 @@ func (c *Customer) Validate(tx *pop.Connection) (*validate.Errors, error) {
 		&validators.TimeIsBeforeTime{SecondTime: c.BirthDate, FirstTime: time.Now().AddDate(-60, 0, 0), FirstName: "Birth Date", SecondName: "60 years"},
 
 		&validators.EmailIsPresent{Field: c.Email, Name: "Email"},
-		&validators.StringInclusion{Field: c.Gender, Name: "Gender", List: []string{"Male", "Female"}},
+		&validators.StringInclusion{Field: c.Gender, Name: "Gender", List: []string{"male", "female"}},
 	), nil
 }
 
