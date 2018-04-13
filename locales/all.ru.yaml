@@ -7,7 +7,7 @@
 - id: customers_last_name
   translation: "Фамилия"
 - id: customers_email
-  translation: "Email"
+  translation: "Электронная почта"
 - id: customers_gender
   translation: "Пол"
 - id: customers_gender_male
@@ -29,3 +29,14 @@
   translation: "Искать"
 - id: button_save
   translation: "Сохранить"
+- id: button_delete
+  translation: "Удалить"
+- id: button_confirmation
+  translation: "Вы уверены?"
+
+- id: alert_customers_save
+  translation: "Клиент был успешно сохранён"
+- id: alert_customers_changed
+  translation: "Клиент был изменён во время вашего редактирования, убедитесь что вы хотите перезаписать изменения и сохраните его снова."
+- id: alert_customers_destroyed
+  translation: "Клиент был успешно удалён"

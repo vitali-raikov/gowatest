@@ -22,6 +22,16 @@ func init() {
 			// uncomment for non-Bootstrap form helpers:
 			// "form":     plush.FormHelper,
 			// "form_for": plush.FormForHelper,
+
+			// Not specifically proud of this part but I couldn't in timely manner figure out
+			// how to nicely have buffalo context here
+			"genderOptions": func(maleTranslation string, femaleTranslation string) map[string]string {
+				genders := map[string]string{
+					maleTranslation:   "male",
+					femaleTranslation: "female",
+				}
+				return genders
+			},
 		},
 	})
 }

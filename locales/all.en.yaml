@@ -29,3 +29,14 @@
   translation: "Search"
 - id: button_save
   translation: "Save"
+- id: button_delete
+  translation: "Delete"
+- id: button_confirmation
+  translation: "Are you sure?"
+
+- id: alert_customers_save
+  translation: "Customer was updated successfully"
+- id: alert_customers_changed
+  translation: "Customer was updated meanwhile, please confirm that you still want to update customer."
+- id: alert_customers_destroyed
+  translation: "Customer was succesfully destroyed"

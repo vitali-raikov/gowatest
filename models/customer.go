@@ -42,6 +42,7 @@ func (c Customers) String() string {
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
 // This method is not required and may be deleted.
 func (c *Customer) Validate(tx *pop.Connection) (*validate.Errors, error) {
+	var err error
 	return validate.Validate(
 		&validators.StringIsPresent{Field: c.FirstName, Name: "First Name"},
 		&validators.StringLengthInRange{Field: c.FirstName, Name: "First Name", Max: 100},
@@ -56,6 +57,26 @@ func (c *Customer) Validate(tx *pop.Connection) (*validate.Errors, error) {
 
 		&validators.EmailIsPresent{Field: c.Email, Name: "Email"},
 		&validators.StringInclusion{Field: c.Gender, Name: "Gender", List: []string{"male", "female"}},
+
+		// Check to see if the email address is already taken:
+		&validators.FuncValidator{
+			Field:   c.Email,
+			Name:    "Email",
+			Message: "%s is already taken",
+			Fn: func() bool {
+				var b bool
+				q := tx.Where("email = ?", c.Email)
+
+				if c.ID != uuid.Nil {
+					q = q.Where("id != ?", c.ID)
+				}
+				b, err = q.Exists(c)
+				if err != nil {
+					return false
+				}
+				return !b
+			},
+		},
 	), nil
 }
 

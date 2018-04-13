@@ -3,6 +3,6 @@
 
 <%= form_for(customer, {action: customersPath({language: currentLanguage}), method: "POST"}) { %>
   <%= partial("customers/form.html") %>
-  <input type="submit" class="btn btn-warning" value="Save">
+  <input type="submit" class="btn btn-warning" value="<%= t("button_save") %>">
 <% } %>
 <br/>

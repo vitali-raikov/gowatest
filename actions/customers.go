@@ -18,7 +18,7 @@ type CustomersResource struct {
 
 func (v CustomersResource) scope(c buffalo.Context) *pop.Query {
 	tx := c.Value("tx").(*pop.Connection)
-	return tx.Order("id desc")
+	return tx.Order("created_at desc")
 }
 
 // List is a default handler to serve home page
@@ -45,6 +45,7 @@ func (v CustomersResource) List(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
+	// We prefill this for search fields
 	c.Set("lastName", lastName)
 	c.Set("firstName", firstName)
 
@@ -58,7 +59,7 @@ func (v CustomersResource) List(c buffalo.Context) error {
 func (v CustomersResource) New(c buffalo.Context) error {
 	customer := &models.Customer{}
 
-	customer.BirthDate = time.Now().AddDate(-18, 0, 0)
+	customer.BirthDate = time.Now().AddDate(-20, 0, 0)
 
 	// Make customer available inside the html template
 	c.Set("customer", customer)
@@ -101,13 +102,36 @@ func (v CustomersResource) Create(c buffalo.Context) error {
 // Edit is a hander for rendering edit page
 func (v CustomersResource) Edit(c buffalo.Context) error {
 	customer := &models.Customer{}
+
 	err := v.scope(c).Find(customer, c.Param("customer_id"))
 	if err != nil {
 		return c.Error(404, err)
 	}
 	// Make customer available inside the html template
 	c.Set("customer", customer)
+
 	return c.Render(200, r.HTML("customers/edit.html"))
+}
+
+// Destroy is a hander for rendering edit page
+func (v CustomersResource) Destroy(c buffalo.Context) error {
+	customer := &models.Customer{}
+
+	err := v.scope(c).Find(customer, c.Param("customer_id"))
+	if err != nil {
+		return c.Error(404, err)
+	}
+
+	// Get the DB connection from the context
+	tx := c.Value("tx").(*pop.Connection)
+	err = tx.Destroy(customer)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	// If there are no errors set a flash message
+	c.Flash().Add("success", T.Translate(c, "alert_customers_destroyed"))
+	// Redirect to the customers index page
+	return c.Redirect(302, fmt.Sprintf("/%s/customers", c.Session().Get(T.SessionName)))
 }
 
 // Update is handler for processing customer updating
@@ -125,11 +149,9 @@ func (v CustomersResource) Update(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
-	fmt.Println(customer.EditPageDate)
-	fmt.Println(customer.UpdatedAt.UnixNano())
 	if customer.EditPageDate != customer.UpdatedAt.UnixNano() {
 		c.Set("customer", customer)
-		c.Flash().Add("warning", "Customer was updated meanwhile, please confirm that you still want to update customer")
+		c.Flash().Add("warning", T.Translate(c, "alert_customers_changed"))
 		return c.Render(422, r.HTML("customers/edit.html"))
 	}
 
@@ -152,7 +174,7 @@ func (v CustomersResource) Update(c buffalo.Context) error {
 	}
 
 	// If there are no errors set a success message
-	c.Flash().Add("success", "Customer was updated successfully")
+	c.Flash().Add("success", T.Translate(c, "alert_customers_save"))
 	// and redirect to the customers index page
 
 	return c.Redirect(302, fmt.Sprintf("/%s/customers", c.Session().Get(T.SessionName)))

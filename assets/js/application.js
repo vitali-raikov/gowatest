@@ -3,7 +3,7 @@ require("bootstrap/dist/js/bootstrap.bundle.js");
 
 let TinyDatePicker = require("tiny-date-picker");
 
-let displayFormat = 'DD/MM/YYYY';
+let displayFormat = 'MM/DD/YYYY';
 import moment from 'moment/src/moment'
 
 
