@@ -33,7 +33,7 @@ func (as *ActionSuite) Test_CustomersResource_New() {
 	as.Equal(200, res.Code)
 }
 
-func (as *ActionSuite) Test_LinksResource_Destroy() {
+func (as *ActionSuite) Test_CustomersResource_Destroy() {
 	customer := as.CreateCustomer()
 
 	res := as.HTML("/ru/customers/%s", customer.ID).Delete()
